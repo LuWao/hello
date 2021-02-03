@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "myapp"
+spec:
+  template:
+    metadata:
+      name: "myapp"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: post-install-job
+        image: luwao/user:v1
+        env:
+          - name: DATABASE_URI
+            valueFrom:
+              secretKeyRef:
+                name: user-secret
+                key: DATABASE_URI
+        command:
+          - sh
+          - "-c"
+          - |
+            pwd
+            alembic upgrade head
+  backoffLimit: 0
