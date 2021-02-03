@@ -1,0 +1,19 @@
+replicaCount: 2
+ 
+image:
+  repository: luwao/user
+ 
+service:
+  type: NodePort
+  port: 9000
+ 
+postgresql:
+  enabled: true
+  postgresqlUsername: myuser
+  postgresqlPassword: passwd
+  postgresqlDatabase: myapp
+  service:
+    port: "5432"
+
+host:
+  name: arch.homework
