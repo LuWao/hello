@@ -15,5 +15,12 @@ postgresql:
   service:
     port: "5432"
 
-host:
-  name: arch.homework
+metrics:
+  serviceMonitor:
+    enabled: true
+
+ingress:
+  enabled: true
+  hosts:
+    - host: arch.homework
+      paths: ["/app"]
