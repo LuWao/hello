@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8daf7ce2-2cae-41c1-91e3-ee9d57e171f1",
+		"_postman_id": "b1f5a376-d9ec-4d5c-9459-f69141de1f03",
 		"name": "API Gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -23,7 +23,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							""
+							"pm.collectionVariables.set(\"username\", pm.collectionVariables.get(\"username\") + \"_0\");"
 						],
 						"type": "text/javascript"
 					}
@@ -322,11 +322,6 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"pm.collectionVariables.set(\"secondPassword\", pm.variables.replaceIn('{{$randomPassword}}'))",
-							"pm.collectionVariables.set(\"secondEmail\", pm.variables.replaceIn('{{$randomEmail}}'))",
-							"pm.collectionVariables.set(\"secondPhone\", pm.variables.replaceIn('{{$randomPassword}}'))",
-							"pm.collectionVariables.set(\"secondFirstName\", pm.variables.replaceIn('{{$randomFirstName}}'))",
-							"pm.collectionVariables.set(\"secondLastName\", pm.variables.replaceIn('{{$randomLastName}}'))",
 							"pm.collectionVariables.set(\"secondUsername\", pm.variables.replaceIn('{{$randomUserName}}'))"
 						],
 						"type": "text/javascript"
@@ -536,7 +531,7 @@
 		},
 		{
 			"key": "baseUrl",
-			"value": "http://192.168.99.106",
+			"value": "http://192.168.99.105",
 			"disabled": true
 		},
 		{
