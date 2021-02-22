@@ -1,0 +1,611 @@
+{
+	"info": {
+		"_postman_id": "8daf7ce2-2cae-41c1-91e3-ee9d57e171f1",
+		"name": "API Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "регистрация",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"value": "arch.homework",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{username}}\", \n\t\"password\": \"{{password}}\",\n\t\"email\": \"{{email}}\",\n    \"phone\": \"{{phone}}\",\n\t\"firstName\": \"{{firstName}}\",\n\t\"lastName\": \"{{lastName}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/register/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "просмотр профиля без логина",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"value": "arch.homework",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/{{username}}/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "изменение профиля без логина",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Host",
+						"value": "arch.homework",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": {{newFirstName}},\n    \"lastName\": {{newLastName}},\n    \"email\": {{newEmail}},\n    \"phone\": {{newPhone}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/{{username}}/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "логин",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    pm.collectionVariables.set(\"Authorization\", pm.response.headers.get('authorization'));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"value": "arch.homework",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/login/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "изменение профиля",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "arch.homework"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"{{newFirstName}}\",\n    \"lastName\": \"{{newLastName}}\",\n    \"email\": \"{{newEmail}}\",\n    \"phone\": \"{{newPhone}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/{{username}}/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "получить данные о пользователе",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.username).to.eql(pm.collectionVariables.get(\"username\"));",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"newEmail\"));",
+							"    pm.expect(jsonData.phone).to.eql(pm.collectionVariables.get(\"newPhone\"));",
+							"    pm.expect(jsonData.lastName).to.eql(pm.collectionVariables.get(\"newLastName\"));",
+							"    pm.expect(jsonData.firstName).to.eql(pm.collectionVariables.get(\"newFirstName\"));",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"value": "arch.homework",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/{{username}}/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "регистрация другого пользователя",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"secondPassword\", pm.variables.replaceIn('{{$randomPassword}}'))",
+							"pm.collectionVariables.set(\"secondEmail\", pm.variables.replaceIn('{{$randomEmail}}'))",
+							"pm.collectionVariables.set(\"secondPhone\", pm.variables.replaceIn('{{$randomPassword}}'))",
+							"pm.collectionVariables.set(\"secondFirstName\", pm.variables.replaceIn('{{$randomFirstName}}'))",
+							"pm.collectionVariables.set(\"secondLastName\", pm.variables.replaceIn('{{$randomLastName}}'))",
+							"pm.collectionVariables.set(\"secondUsername\", pm.variables.replaceIn('{{$randomUserName}}'))"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"value": "arch.homework",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{secondUsername}}\", \n\t\"password\": \"{{secondPassword}}\",\n\t\"email\": \"{{secondEmail}}\",\n    \"phone\": \"{{secondPhone}}\",\n\t\"firstName\": \"{{secondFirstName}}\",\n\t\"lastName\": \"{{secondLastName}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/register/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "логин другого пользователя",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    pm.collectionVariables.set(\"Authorization\", pm.response.headers.get('authorization'));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "arch.homework"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{secondUsername}}\",\n    \"password\": \"{{secondPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/login/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "просмотр чужого профиля",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "arch.homework"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Authorization}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/{{username}}/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "изменение чужого профиля",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "arch.homework"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Authorization}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"{{newFirstName}}\",\n    \"lastName\": \"{{newLastName}}\",\n    \"email\": \"{{newEmail}}\",\n    \"phone\": \"{{newPhone}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/{{username}}/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"tests[\"[INFO] Request: \" + (('data' in request) ? request['data'] : '') ] = true;",
+					"tests[\"[INFO] Response: \" + responseBody] = true;"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://arch.homework"
+		},
+		{
+			"key": "baseUrl",
+			"value": "http://192.168.99.106",
+			"disabled": true
+		},
+		{
+			"key": "Authorization",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": "chonk"
+		},
+		{
+			"key": "password",
+			"value": "doge"
+		},
+		{
+			"key": "firstName",
+			"value": "c"
+		},
+		{
+			"key": "lastName",
+			"value": "d"
+		},
+		{
+			"key": "phone",
+			"value": "666"
+		},
+		{
+			"key": "email",
+			"value": "cd@gmail.com"
+		},
+		{
+			"key": "newFirstName",
+			"value": "tight"
+		},
+		{
+			"key": "newLastName",
+			"value": "doggo"
+		},
+		{
+			"key": "newEmail",
+			"value": "td@gmail.com"
+		},
+		{
+			"key": "newPhone",
+			"value": "111"
+		},
+		{
+			"key": "secondUsername",
+			"value": "mommy"
+		},
+		{
+			"key": "secondPassword",
+			"value": "evilcrimah"
+		},
+		{
+			"key": "secondFirstName",
+			"value": "clever"
+		},
+		{
+			"key": "secondLastName",
+			"value": "bitch"
+		},
+		{
+			"key": "secondPhone",
+			"value": "123"
+		},
+		{
+			"key": "secondEmail",
+			"value": "m.disney@gmail.com"
+		}
+	]
+}

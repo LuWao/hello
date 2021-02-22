@@ -1,26 +1,30 @@
-0) Create namespace "myapp"
-kubectl create namespace myapp
+0) Make sure that ingress addon is enabled
+> minikube addons enable ingress
 
-1) Deploy db
-cd postgres
-kubectl apply -f postgres-deployment.yaml
-**** MIGRATIONS ***
+1) Create namespace "myapp"
+> kubectl create namespace myapp
+> kubectl config set-context --current --namespace=myapp
 
-2) Deploy api-gateway
-cd ..
-cd auth-app
-helm install auth-app ./auth-app-chart
+2) Deploy db
+> cd postgres
+> kubectl apply -f postgres-deployment.yaml
 
-3) Deploy app
-cd ..
-cd app
-helm install app ./app-chart
+3) Migrate when postgres-pod will be ready
+> kubectl apply -f initdb.yaml
 
-4) Apply auth-ingress
-kubectl apply -f auth_app_ingress.yaml
+4) Deploy api-gateway
+> cd ../auth-app
+> helm install auth-app ./auth-app-chart --atomic
+> kubectl apply -f auth_app_ingress.yaml
 
-5) Apply app-ingress
-kubectl apply -f app_ingress.yaml
+5) Deploy app
+> cd ../app
+> helm install app ./app-chart --atomic
+> kubectl apply -f app_ingress.yaml
+
+6) Run tests
+> cd ..
+> newman run api_gateway_postman_collection.json
 
 
 If you want to execute collection again, drop users table records:

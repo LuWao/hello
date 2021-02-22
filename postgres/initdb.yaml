@@ -13,10 +13,7 @@ spec:
         image: luwao/app:v3
         env:
           - name: DATABASE_URI
-            valueFrom:
-              secretKeyRef:
-                name: user-secret
-                key: DATABASE_URI
+            value: postgresql+psycopg2://myuser:passwd@postgres/myapp
         command:
           - sh
           - "-c"
