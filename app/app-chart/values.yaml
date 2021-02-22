@@ -1,0 +1,17 @@
+replicaCount: 2
+
+fullnameOverride: "app"
+
+image:
+  repository: luwao/app
+
+service:
+  type: NodePort
+  port: 9000
+
+postgresql:
+  enabled: true
+  name: postgres
+  postgresqlUsername: myuser
+  postgresqlPassword: passwd
+  postgresqlDatabase: myapp

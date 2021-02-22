@@ -10,7 +10,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: post-install-job
-        image: luwao/user:v1
+        image: luwao/app:v3
         env:
           - name: DATABASE_URI
             valueFrom:

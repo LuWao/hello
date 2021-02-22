@@ -1,0 +1,27 @@
+# Default values for auth-app-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: luwao/auth_app
+
+fullnameOverride: "auth"
+
+service:
+  type: NodePort
+  port: 9000
+
+postgresql:
+  name: postgres
+  enabled: true
+  postgresqlUsername: myuser
+  postgresqlPassword: passwd
+  postgresqlDatabase: myapp
+
+ingress:
+  enabled: false
+  hosts:
+    - host: arch.homework
+      paths: ["/auth"]

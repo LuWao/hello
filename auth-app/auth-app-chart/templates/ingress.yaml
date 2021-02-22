@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "user-chart.fullname" . -}}
+{{- $fullName := include "auth-app-chart.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
@@ -10,20 +10,20 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "user-chart.labels" . | nindent 4 }}
+    {{- include "auth-app-chart.labels" . | nindent 4 }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-  {{- range .Values.ingress.hosts }}
+    {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
-        {{- range .paths }}
+          {{- range .paths }}
           - path: {{ . }}($|/)(.*)
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
-        {{- end }}
+          {{- end }}
+    {{- end }}
   {{- end }}
-{{- end }}
