@@ -1,3 +1,5 @@
+How to run service:
+
 0) Make sure that ingress addon is enabled
 > minikube addons enable ingress
 
