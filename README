@@ -1,0 +1,68 @@
+How to run service:
+
+0) Make sure that ingress addon is enabled
+minikube addons enable ingress
+
+1) Create namespace "myapp"
+kubectl create namespace myapp
+kubectl config set-context --current --namespace=myapp
+
+2) Deploy db
+cd postgres && kubectl apply -f postgres-deployment.yaml
+
+3) Migrate when postgres-pod will be ready
+kubectl apply -f initdb.yaml
+
+4) Deploy api-gateway
+cd ../auth-app && helm install auth-app ./auth-app-chart --atomic
+...
+kubectl apply -f auth_app_ingress.yaml
+
+5) Deploy app
+cd ../app && helm install app ./app-chart --atomic
+...
+kubectl apply -f app_ingress.yaml
+
+6) Redis
+cd ../redis && kubectl apply -f redis-deployment.yaml
+
+7) Orchestrator
+cd ../orchestrator && helm install orchestrator ./orchestrator-chart --atomic
+
+8) Order service
+cd ../order-service && helm install order ./order-chart --atomic
+
+9) Payment service
+cd ../payment-service && helm install payment ./payment-chart --atomic
+
+10) Admin
+cd ../app-admin && helm install admin ./admin-chart --atomic
+...
+kubectl apply -f admin_ingress.yaml
+
+---------------------------------------------------
+Run tests:
+newman run EDA.postman_collection.json
+
+Admin:
+Админка разместится на домене http://arch.homework.admin, для маппинга
+домена смотрим ip ингресса из команды
+kubectl get ing
+и подставляем его в /etc/hosts
+
+
+Создаём юзера:
+curl --location --request POST 'http://arch.homework/register/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"username": "adminUser",
+	"password": "adminPass",
+	"email": "admin@gmail.com",
+    "phone": "666",
+	"firstName": "admin",
+	"lastName": "admin"
+}
+'
+----------------------------------------------------
+В папке diagrams три картинки, где описаны основные компоненты приложения и их взаимосвязи.
+Для сервиса с заказами картинка одна, потому что отличия будут только в содержимом записи event_store.
