@@ -9,13 +9,13 @@ spec:
       paths:
       - backend:
           serviceName: auth
-          servicePort: 9000
+          servicePort: 8000
         path: /auth/
       - backend:
           serviceName: auth
-          servicePort: 9000
+          servicePort: 8000
         path: /login/
       - backend:
           serviceName: auth
-          servicePort: 9000
+          servicePort: 8000
         path: /register/

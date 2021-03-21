@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: admin
+spec:
+  rules:
+  - host: arch.homework.admin
+    http:
+      paths:
+      - backend:
+          serviceName: admin
+          servicePort: 3000
+        path: /
+        pathType: "Prefix"

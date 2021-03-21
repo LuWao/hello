@@ -1,9 +1,9 @@
-replicaCount: 2
+replicaCount: 1
 
-fullnameOverride: "app"
+fullnameOverride: "order"
 
 image:
-  repository: luwao/eda-app
+  repository: luwao/eda-order-service
 
 service:
   type: NodePort
@@ -15,3 +15,5 @@ postgresql:
   postgresqlUsername: myuser
   postgresqlPassword: passwd
   postgresqlDatabase: myapp
+
+brokerURI: "redis://redis:$(REDIS_SERVICE_PORT)/0"

@@ -3,8 +3,13 @@ kind: Ingress
 metadata:
   name: app
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: "http://auth.myapp.svc.cluster.local:9000/auth/"
+    nginx.ingress.kubernetes.io/auth-url: "http://auth.myapp.svc.cluster.local:8000/auth/"
     nginx.ingress.kubernetes.io/auth-response-headers: "x-username"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Access-Control-Allow-Origin: $http_origin";
 spec:
   rules:
   - host: arch.homework
@@ -12,5 +17,6 @@ spec:
       paths:
       - backend:
           serviceName: app
-          servicePort: 9000
-        path: /user/
+          servicePort: 8000
+        path: /
+        pathType: "Prefix"

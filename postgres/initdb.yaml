@@ -10,7 +10,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: post-install-job
-        image: luwao/app:v3
+        image: luwao/eda-app:v1
         env:
           - name: DATABASE_URI
             value: postgresql+psycopg2://myuser:passwd@postgres/myapp

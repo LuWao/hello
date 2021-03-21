@@ -5,13 +5,13 @@
 replicaCount: 1
 
 image:
-  repository: luwao/auth_app
+  repository: luwao/eda-auth-app
 
 fullnameOverride: "auth"
 
 service:
   type: NodePort
-  port: 9000
+  port: 8000
 
 postgresql:
   name: postgres
