@@ -35,34 +35,12 @@ cd ../order-service && helm install order ./order-chart --atomic
 9) Payment service
 cd ../payment-service && helm install payment ./payment-chart --atomic
 
-10) Admin
-cd ../app-admin && helm install admin ./admin-chart --atomic
-...
-kubectl apply -f admin_ingress.yaml
+10) Notification service
+cd ../notification-service && helm install notification ./notification-chart --atomic
 
 ---------------------------------------------------
 Run tests:
-newman run EDA.postman_collection.json
-
-Admin:
-Админка разместится на домене http://arch.homework.admin, для маппинга
-домена смотрим ip ингресса из команды
-kubectl get ing
-и подставляем его в /etc/hosts
-
-
-Создаём юзера:
-curl --location --request POST 'http://arch.homework/register/' \
---header 'Content-Type: application/json' \
---data-raw '{
-	"username": "adminUser",
-	"password": "adminPass",
-	"email": "admin@gmail.com",
-    "phone": "666",
-	"firstName": "admin",
-	"lastName": "admin"
-}
-'
+newman run Steam processing.postman_collection.json
 ----------------------------------------------------
-В папке diagrams три картинки, где описаны основные компоненты приложения и их взаимосвязи.
-Для сервиса с заказами картинка одна, потому что отличия будут только в содержимом записи event_store.
+В папке diagrams теоретическая часть задания.
+Реализовывала на свой лад, диаграмма 3. Асинхронное взаимодействие при помощи оркестрации.jpg.
