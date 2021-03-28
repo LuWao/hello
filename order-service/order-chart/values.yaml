@@ -3,7 +3,7 @@ replicaCount: 1
 fullnameOverride: "order"
 
 image:
-  repository: luwao/eda-order-service
+  repository: luwao/sp-order-service
 
 service:
   type: NodePort

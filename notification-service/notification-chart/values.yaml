@@ -1,9 +1,9 @@
 replicaCount: 1
 
-fullnameOverride: "payment"
+fullnameOverride: "notification"
 
 image:
-  repository: luwao/sp-payment-service
+  repository: luwao/sp-notification-service
 
 service:
   type: NodePort
@@ -16,4 +16,4 @@ postgresql:
   postgresqlPassword: passwd
   postgresqlDatabase: myapp
 
-brokerURI: "redis://redis:$(REDIS_SERVICE_PORT)"
+brokerURI: "redis://redis:$(REDIS_SERVICE_PORT)/2"

@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: luwao/eda-auth-app
+  repository: luwao/sp-auth-app
 
 fullnameOverride: "auth"
 
