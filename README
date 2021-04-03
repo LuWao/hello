@@ -32,15 +32,10 @@ cd ../orchestrator && helm install orchestrator ./orchestrator-chart --atomic
 8) Order service
 cd ../order-service && helm install order ./order-chart --atomic
 
-9) Payment service
-cd ../payment-service && helm install payment ./payment-chart --atomic
-
-10) Notification service
-cd ../notification-service && helm install notification ./notification-chart --atomic
-
 ---------------------------------------------------
 Run tests:
-newman run Steam processing.postman_collection.json
+newman run Idempotency.postman_collection.json
 ----------------------------------------------------
-В папке diagrams теоретическая часть задания.
-Реализовывала на свой лад, диаграмма 3. Асинхронное взаимодействие при помощи оркестрации.jpg.
+Я реализую идемпотентность через state элементов.
+Если у пользователя есть хотя бы один открытый заказ, то при открытии нового
+все старые заказы помечаются как closed.
