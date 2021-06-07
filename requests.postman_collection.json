@@ -276,6 +276,121 @@
 			"response": []
 		},
 		{
+			"name": "редактировать позиции",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 202\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(() => {}, 1000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "arch.homework"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Authorization}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"position_id\": \"8752\",\n    \"new_amount\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/order/edit-position/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"order",
+						"edit-position",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "удалить позицию",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 202\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "arch.homework"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Authorization}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\"8752\"]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/order/rm-positions/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"order",
+						"rm-positions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "отправить на оплату",
 			"event": [
 				{
@@ -448,28 +563,44 @@
 			"response": []
 		},
 		{
-			"name": "создать заказ 2",
+			"name": "получить текущий заказ пользователя Copy",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status is 202\", function () {",
-							"    pm.response.to.have.status(202);",
+							"pm.test(\"Status is 200, have expected body with empty positions\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).exist;",
+							"    pm.expect(jsonData.created_at).exist;",
+							"    pm.expect(jsonData.total_price).to.eql(0.0);",
+							"    pm.expect(jsonData.positions).to.eql([]);",
 							"});",
 							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(() => {}, 1000);"
 						],
 						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [
 					{
-						"key": "Host",
-						"value": "arch.homework",
-						"type": "text"
+						"key": "X-User",
+						"value": "{{userID}}",
+						"type": "text",
+						"disabled": true
 					},
 					{
 						"key": "Authorization",
@@ -491,141 +622,18 @@
 			"response": []
 		},
 		{
-			"name": "добавить позиции 2",
+			"name": "получить все заказы",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status is 202\", function () {",
-							"    pm.response.to.have.status(202);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"setTimeout(() => {}, 1000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Host",
-						"type": "text",
-						"value": "arch.homework"
-					},
-					{
-						"key": "Authorization",
-						"type": "text",
-						"value": "{{Authorization}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n    {\n        \"id\": \"8752\",\n        \"amount\": 5\n    },\n    {\n        \"id\": \"Конфеты\",\n        \"amount\": 10\n    }\n]",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/order/add-positions/",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"order",
-						"add-positions",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "отправить на оплату 2",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status is 202\", function () {",
-							"    pm.response.to.have.status(202);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"setTimeout(() => {}, 1000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Host",
-						"type": "text",
-						"value": "arch.homework"
-					},
-					{
-						"key": "Authorization",
-						"type": "text",
-						"value": "{{Authorization}}"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/order/pay/",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"order",
-						"pay",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "посмотреть текущий баланс 2",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status is 200, have expected body\", function () {",
+							"pm.test(\"Status is 200, last order state is success\", function () {",
 							"    pm.response.to.have.status(200);",
 							"",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.balance).to.eql(5);",
+							"",
+							"    pm.expect(jsonData[jsonData.length-1].state).to.eql(\"success\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -645,42 +653,51 @@
 				"method": "GET",
 				"header": [
 					{
-						"key": "Host",
+						"key": "X-User",
+						"value": "{{userID}}",
 						"type": "text",
-						"value": "arch.homework"
+						"disabled": true
 					},
 					{
 						"key": "Authorization",
-						"type": "text",
-						"value": "{{Authorization}}"
+						"value": "{{Authorization}}",
+						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "{{baseUrl}}/user/billing-balance/",
+					"raw": "{{baseUrl}}/order/all/",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"user",
-						"billing-balance",
+						"order",
+						"all",
 						""
+					],
+					"query": [
+						{
+							"key": "active",
+							"value": "true",
+							"disabled": true
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "посмотреть нотификации для пользователя 2",
+			"name": "получить все заказы of user",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status is 200, have not empty body\", function () {",
+							"pm.test(\"Status is 200, last order state is success\", function () {",
 							"    pm.response.to.have.status(200);",
 							"",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.length).to.eql(2);",
+							"",
+							"    pm.expect(jsonData[jsonData.length-1].state).to.eql(\"success\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -700,9 +717,10 @@
 				"method": "GET",
 				"header": [
 					{
-						"key": "Host",
+						"key": "X-User",
 						"type": "text",
-						"value": "arch.homework"
+						"value": "{{userID}}",
+						"disabled": true
 					},
 					{
 						"key": "Authorization",
@@ -711,13 +729,121 @@
 					}
 				],
 				"url": {
-					"raw": "{{baseUrl}}/user/notifications/",
+					"raw": "{{baseUrl}}/order/history/",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"user",
-						"notifications",
+						"order",
+						"history",
+						""
+					],
+					"query": [
+						{
+							"key": "active",
+							"value": "true",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "получить все states of order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200, last order state is success\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    var jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData[jsonData.length-1].state).to.eql(\"success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(() => {}, 1000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-User",
+						"type": "text",
+						"value": "{{userID}}",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Authorization}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/order/states/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"order",
+						"states",
+						""
+					],
+					"query": [
+						{
+							"key": "active",
+							"value": "true",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "разлогин",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 202\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Authorization}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/logout/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"logout",
 						""
 					]
 				}

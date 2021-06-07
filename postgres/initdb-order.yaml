@@ -1,19 +1,19 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "db-job"
+  name: "order-db-job"
 spec:
   template:
     metadata:
-      name: "db-job"
+      name: "order-db-job"
     spec:
       restartPolicy: Never
       containers:
-      - name: post-install-job
-        image: luwao/refactor-app:v18
+      - name: post-install-job-for-order-service
+        image: luwao/refactor-order:v9
         env:
-          - name: DATABASE_URI
-            value: postgresql+psycopg2://myuser:passwd@postgres/myapp
+          - name: ORDER_DATABASE_URI
+            value: postgresql+psycopg2://myuser:passwd@postgres-order/myapp
         command:
           - sh
           - "-c"

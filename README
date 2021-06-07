@@ -18,10 +18,8 @@ cd ../auth-app && helm install auth-app ./auth-app-chart --atomic
 ...
 kubectl apply -f auth_app_ingress.yaml
 
-5) Deploy app
-cd ../app && helm install app ./app-chart --atomic
-...
-kubectl apply -f app_ingress.yaml
+5) Deploy product
+cd ../product-service && helm install product ./product-chart --atomic
 
 6) Redis
 cd ../redis && kubectl apply -f redis-deployment.yaml
@@ -37,6 +35,11 @@ cd ../payment-service && helm install payment ./payment-chart --atomic
 
 10) Notification service
 cd ../notification-service && helm install notification ./notification-chart --atomic
+
+11) Deploy app
+cd ../app && helm install app ./app-chart --atomic
+...
+kubectl apply -f app_ingress.yaml
 
 ---------------------------------------------------
 Run tests:

@@ -3,7 +3,7 @@ replicaCount: 1
 fullnameOverride: "notification"
 
 image:
-  repository: luwao/sp-notification-service
+  repository: luwao/refactor-notification-service
 
 service:
   type: NodePort
@@ -11,9 +11,9 @@ service:
 
 postgresql:
   enabled: true
-  name: postgres
+  name: postgres-notification
   postgresqlUsername: myuser
   postgresqlPassword: passwd
   postgresqlDatabase: myapp
 
-brokerURI: "redis://redis:$(REDIS_SERVICE_PORT)/2"
+brokerURI: "redis://redis:$(REDIS_SERVICE_PORT)"

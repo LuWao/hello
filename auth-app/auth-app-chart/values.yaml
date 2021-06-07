@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: luwao/sp-auth-app
+  repository: luwao/refactor-auth-app
 
 fullnameOverride: "auth"
 
@@ -25,3 +25,5 @@ ingress:
   hosts:
     - host: arch.homework
       paths: ["/auth"]
+
+brokerURI: "redis://redis:$(REDIS_SERVICE_PORT)"

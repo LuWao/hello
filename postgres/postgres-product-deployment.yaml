@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-product
+  labels:
+    app: postgres-product
+spec:
+  type: NodePort
+  ports:
+   - port: 5432
+  selector:
+    app: postgres-product
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-product-statefulset
+spec:
+  serviceName: "postgres-product"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-product
+  template:
+    metadata:
+      labels:
+        app: postgres-product
+    spec:
+      containers:
+      - name: postgres-product
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+          name: postgredb
+        env:
+          - name: POSTGRES_DB
+            value: myapp
+          - name: POSTGRES_USER
+            value: myuser
+          - name: POSTGRES_PASSWORD
+            value: passwd
+        volumeMounts:
+        - name: postgredb
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+  volumeClaimTemplates:
+  - metadata:
+      name: postgredb
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: standard
+      resources:
+        requests:
+          storage: 1Gi

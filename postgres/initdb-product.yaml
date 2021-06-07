@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "product-db-job"
+spec:
+  template:
+    metadata:
+      name: "product-db-job"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: post-install-job-for-product-service
+        image: luwao/refactor-product-service:v1
+        env:
+          - name: PRODUCT_DATABASE_URI
+            value: postgresql+psycopg2://myuser:passwd@postgres-product/myapp
+        command:
+          - sh
+          - "-c"
+          - |
+            pwd
+            alembic upgrade head
+  backoffLimit: 0

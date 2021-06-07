@@ -1,9 +1,9 @@
 replicaCount: 1
 
-fullnameOverride: "payment"
+fullnameOverride: "product"
 
 image:
-  repository: luwao/refactor-payment-service
+  repository: luwao/refactor-product-service
 
 service:
   type: NodePort
@@ -11,9 +11,7 @@ service:
 
 postgresql:
   enabled: true
-  name: postgres-payment
+  name: postgres-product
   postgresqlUsername: myuser
   postgresqlPassword: passwd
   postgresqlDatabase: myapp
-
-brokerURI: "redis://redis:$(REDIS_SERVICE_PORT)"

@@ -3,7 +3,7 @@ replicaCount: 1
 fullnameOverride: "order"
 
 image:
-  repository: luwao/sp-order-service
+  repository: luwao/refactor-order
 
 service:
   type: NodePort
@@ -11,9 +11,9 @@ service:
 
 postgresql:
   enabled: true
-  name: postgres
+  name: postgres-order
   postgresqlUsername: myuser
   postgresqlPassword: passwd
   postgresqlDatabase: myapp
 
-brokerURI: "redis://redis:$(REDIS_SERVICE_PORT)/0"
+brokerURI: "redis://redis:$(REDIS_SERVICE_PORT)"

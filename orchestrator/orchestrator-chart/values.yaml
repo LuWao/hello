@@ -3,11 +3,7 @@ replicaCount: 1
 fullnameOverride: "orchestrator"
 
 image:
-  repository: luwao/sp-orchestrator
-
-service:
-  type: NodePort
-  port: 8000
+  repository: luwao/refactor-orchestrator
 
 postgresql:
   enabled: true

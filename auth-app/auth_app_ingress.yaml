@@ -19,3 +19,7 @@ spec:
           serviceName: auth
           servicePort: 8000
         path: /register/
+      - backend:
+          serviceName: auth
+          servicePort: 8000
+        path: /logout/

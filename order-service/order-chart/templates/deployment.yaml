@@ -17,17 +17,33 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: "{{ .Chart.Name }}-worker"
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          command: ["bash", "entrypoint.sh", "celery-worker"]
+          env:
+            - name: ORDER_DATABASE_URI
+              valueFrom:
+                secretKeyRef:
+                  name: order-db-secret
+                  key: ORDER_DATABASE_URI
+            - name: ORDER_BROKER_URI
+              value: "{{ .Values.brokerURI }}/0"
+            - name: BROKER_URI
+              value: "{{ .Values.brokerURI }}/4"
+        - name: "{{ .Chart.Name }}-api"
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          command: ["bash", "entrypoint.sh", "api"]
           ports:
             - name: http
               containerPort: 8000
               protocol: TCP
           env:
-            - name: DATABASE_URI
+            - name: ORDER_DATABASE_URI
               valueFrom:
                 secretKeyRef:
                   name: order-db-secret
-                  key: DATABASE_URI
+                  key: ORDER_DATABASE_URI
             - name: ORDER_BROKER_URI
-              value: {{ .Values.brokerURI }}
+              value: "{{ .Values.brokerURI }}/0"
+            - name: BROKER_URI
+              value: "{{ .Values.brokerURI }}/4"

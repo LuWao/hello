@@ -17,12 +17,9 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: "{{ .Chart.Name }}-beat"
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
-          ports:
-            - name: http
-              containerPort: 8000
-              protocol: TCP
+          command: ["bash", "entrypoint.sh", "celery-beat"]
           env:
             - name: DATABASE_URI
               valueFrom:
@@ -31,3 +28,18 @@ spec:
                   key: DATABASE_URI
             - name: BROKER_URI
               value: {{ .Values.brokerURI }}
+            - name: ORCHESTRATOR_BROKER_URI
+              value: "{{ .Values.brokerURI }}/2"
+        - name: "{{ .Chart.Name }}-worker"
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          command: ["bash", "entrypoint.sh", "celery-worker"]
+          env:
+            - name: DATABASE_URI
+              valueFrom:
+                secretKeyRef:
+                  name: orchestrator-db-secret
+                  key: DATABASE_URI
+            - name: BROKER_URI
+              value: {{ .Values.brokerURI }}
+            - name: ORCHESTRATOR_BROKER_URI
+              value: "{{ .Values.brokerURI }}/4"

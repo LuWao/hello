@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: product-db-secret
+type: Opaque
+data:
+  PRODUCT_DATABASE_URI: {{ printf "postgresql+psycopg2://%s:%s@%s/%s" .Values.postgresql.postgresqlUsername .Values.postgresql.postgresqlPassword .Values.postgresql.name .Values.postgresql.postgresqlDatabase  | b64enc | quote }}

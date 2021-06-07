@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "notification-db-job"
+spec:
+  template:
+    metadata:
+      name: "notification-db-job"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: post-install-job-for-notification-service
+        image: luwao/refactor-notification-service:v1
+        env:
+          - name: NOTIFICATION_DATABASE_URI
+            value: postgresql+psycopg2://myuser:passwd@postgres-notification/myapp
+        command:
+          - sh
+          - "-c"
+          - |
+            pwd
+            alembic upgrade head
+  backoffLimit: 0

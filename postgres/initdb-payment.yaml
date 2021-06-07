@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "payment-db-job"
+spec:
+  template:
+    metadata:
+      name: "payment-db-job"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: post-install-job-for-payment-service
+        image: luwao/refactor-payment-service:v1
+        env:
+          - name: PAYMENT_DATABASE_URI
+            value: postgresql+psycopg2://myuser:passwd@postgres-payment/myapp
+        command:
+          - sh
+          - "-c"
+          - |
+            pwd
+            alembic upgrade head
+  backoffLimit: 0
